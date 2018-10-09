@@ -89,10 +89,11 @@ bool Field::checkForWin(){
           else circleCounter++;
       }
     }
+        if (circleCounter == 3 || crossCounter == 3) return true;
+        crossCounter = circleCounter = 0;
   }
 
-    if (circleCounter == 3 || crossCounter == 3) return true;
-    crossCounter = circleCounter = 0;
+
 
     // Check for verticals
 
@@ -105,10 +106,11 @@ bool Field::checkForWin(){
           else circleCounter++;
       }
     }
+        if (circleCounter == 3 || crossCounter == 3) return true;
+        crossCounter = circleCounter = 0;
   }
 
-    if (circleCounter == 3 || crossCounter == 3) return true;
-    crossCounter = circleCounter = 0;
+
 
     return false;
 
