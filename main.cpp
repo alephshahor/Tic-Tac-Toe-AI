@@ -26,18 +26,53 @@ int main(){
         case sf::Event::MouseButtonPressed:
               if ((evnt.mouseButton.button == sf::Mouse::Left) && (crossTurn)){
                 if(gameField.changeCellState(evnt.mouseButton.x, evnt.mouseButton.y,crossTurn)){
-                  if(gameField.checkForWin())
-                     std::cout << "Cross wins\n";
-                     crossTurn = false;
+                  int result = gameField.checkForTerminalState();
+                  switch(result){
+                    case 0:
+                    std::cout << "Circle Wins\n";
+                    return false;
+                    break;
+                    case 1:
+                    std::cout << "Cross Wins\n";
+                    return false;
+                    break;
+                    case 2:
+                    std::cout << "Tie\n";
+                    return false;
+                    break;
+                    case 3:
+                    std::cout << "The game keeps goin on\n";
+                    crossTurn = false;
+                    break;
                   }
+
+                  }
+
+
+
             }else{
               if(gameField.changeCellState(evnt.mouseButton.x, evnt.mouseButton.y,crossTurn)){
-                   if(gameField.checkForWin())
-                      std::cout << "Circle wins\n";
-                      crossTurn = true;
-                 }
+                int result = gameField.checkForTerminalState();
+                switch(result){
+                  case 0:
+                  std::cout << "Circle Wins\n";
+                  return false;
+                  break;
+                  case 1:
+                  std::cout << "Cross Wins\n";
+                  return false;
+                  break;
+                  case 2:
+                  std::cout << "Tie\n";
+                  return false;
+                  break;
+                  default:
+                  std::cout << "The game keeps goin on\n";
+                  crossTurn = true;
+                  break;
+                }
+              }
             }
-              break;
 
       }
     }

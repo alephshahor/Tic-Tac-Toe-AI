@@ -47,7 +47,7 @@ Cell Field::getCell(int posX, int posY){
        return field[posY][posX];
 }
 
-bool Field::checkForWin(){
+int Field::checkForTerminalState(){
 
     int crossCounter = 0;
     int circleCounter = 0;
@@ -62,7 +62,11 @@ bool Field::checkForWin(){
       }
     }
 
-    if (circleCounter == 3 || crossCounter == 3) return true;
+    if (circleCounter == 3 )
+      return 0;
+    else if (crossCounter == 3)
+      return 1;
+
     crossCounter = circleCounter = 0;
 
     // Check for second Diagonal
@@ -75,7 +79,10 @@ bool Field::checkForWin(){
       }
     }
 
-    if (circleCounter == 3 || crossCounter == 3) return true;
+    if (circleCounter == 3 )
+      return 0;
+    else if (crossCounter == 3)
+      return 1;
     crossCounter = circleCounter = 0;
 
 
@@ -89,7 +96,11 @@ bool Field::checkForWin(){
           else circleCounter++;
       }
     }
-        if (circleCounter == 3 || crossCounter == 3) return true;
+
+    if (circleCounter == 3 )
+      return 0;
+    else if (crossCounter == 3)
+      return 1;
         crossCounter = circleCounter = 0;
   }
 
@@ -106,13 +117,32 @@ bool Field::checkForWin(){
           else circleCounter++;
       }
     }
-        if (circleCounter == 3 || crossCounter == 3) return true;
+
+    if (circleCounter == 3 )
+      return 0;
+    else if (crossCounter == 3)
+      return 1;
         crossCounter = circleCounter = 0;
   }
 
 
 
-    return false;
+  // Check for full board
+  int fullboardCounter = 0;
+
+  for (int y = 0; y < 3; y++){
+    for (int x = 0; x < 3; x++){
+      if (field[x][y].isOccupied()){
+          fullboardCounter++;
+      }
+    }
+  }
+
+
+  if (fullboardCounter == 9)
+      return 2;
+
+  return 3;
 
 }
 

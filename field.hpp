@@ -23,5 +23,5 @@ class Field{
         bool changeCellState(int posX, int posY, bool crossTurn);
         Cell getCell(int posX, int posY);
 
-        bool checkForWin();
+        int checkForTerminalState();
 };
