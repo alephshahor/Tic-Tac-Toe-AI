@@ -165,6 +165,7 @@ int Field::checkForTerminalState(std::vector< std::vector <Cell> > field_){
           currentBoard_[y][x].occupyCell();
           currentBoard_[y][x].crossOccupy();
           int result = minimax(currentBoard_, 0, false);
+          std::cout << "RESULT --> " << result << "\n";
           if (result > bestResult){
             bestResult = result;
             bestMove = std::make_pair(y,x);
@@ -189,7 +190,12 @@ int Field::minimax (std::vector < std::vector <Cell> > currentBoard, int depth, 
       if (isMaximizingPlayer)
            std::cout << " Maximizing\n";
       else std::cout << " Minimizing\n";*/
-      return boardState;
+      if(boardState == -10)
+         return boardState + depth;
+      else if (boardState == 10)
+         return boardState - depth;
+      else if (boardState == 0)
+          return boardState;
     }
 
     if (isMaximizingPlayer){
@@ -200,10 +206,9 @@ int Field::minimax (std::vector < std::vector <Cell> > currentBoard, int depth, 
            if (!currentBoard[y][x].isOccupied()){
               currentBoard_[y][x].crossOccupy();
               int value = minimax(currentBoard_, depth + 1, false);
-              if (value != 0)
-                  std::cout << "IN MAX THE VALUE IS -> " << value << "\n";
+            //  if (value != 0)
+              //    std::cout << "IN MAX THE VALUE IS -> " << value << "\n";
               bestValue = std::max(value, bestValue);
-              bestValue - depth;
            }
          }
        }
@@ -218,10 +223,9 @@ int Field::minimax (std::vector < std::vector <Cell> > currentBoard, int depth, 
           if (!currentBoard[y][x].isOccupied()){
              currentBoard_[y][x].occupyCell();
              int value = minimax(currentBoard_, depth + 1, true);
-             if (value != 0)
-                 std::cout << "IN MIN THE VALUE IS -> " << value << "\n";
+          //   if (value != 0)
+            //     std::cout << "IN MIN THE VALUE IS -> " << value << "\n";
              bestValue = std::min(value, bestValue);
-             bestValue + depth;
           }
         }
       }
