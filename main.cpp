@@ -9,7 +9,8 @@ int main(){
   int cellSize = 160;
   int fieldSize = 480;
 
-  bool crossTurn = true;
+  bool crossTurn = false;
+  std::pair <int,int> calculatedMove = std::make_pair(0,0);
 
 
   Field gameField(fieldSize,fieldSize,cellSize);
@@ -24,34 +25,8 @@ int main(){
              window.close();
              break;
         case sf::Event::MouseButtonPressed:
-              if ((evnt.mouseButton.button == sf::Mouse::Left) && (crossTurn)){ // Cross turn
-                if(gameField.changeCellState(evnt.mouseButton.x, evnt.mouseButton.y,crossTurn)){
-                  int result = gameField.checkForTerminalState(gameField.getField());
-                  switch(result){
-                    case -10:
-                    std::cout << "Circle Wins\n";
-                    return false;
-                    break;
-                    case 10:
-                    std::cout << "Cross Wins\n";
-                    return false;
-                    break;
-                    case 0:
-                    std::cout << "Tie\n";
-                    return false;
-                    break;
-                    case 3:
-                    std::cout << "The game keeps goin on\n";
-                    crossTurn = false;
-                    break;
-                  }
-
-                  }
-
-
-
-            }else{
-              if(gameField.changeCellState(evnt.mouseButton.x, evnt.mouseButton.y,crossTurn)){
+              if ((evnt.mouseButton.button == sf::Mouse::Left)){
+              if(gameField.changeCellState(evnt.mouseButton.x, evnt.mouseButton.y,false)){
                 int result = gameField.checkForTerminalState(gameField.getField());
                 switch(result){
                   case -10:
@@ -68,13 +43,53 @@ int main(){
                   break;
                   default:
                   std::cout << "The game keeps goin on\n";
-                  crossTurn = true;
+                  //crossTurn = true;
                   break;
                 }
+
+
+              window.clear();
+              for (int y = 0; y < fieldSize/ cellSize; y++)
+                for (int x = 0; x < fieldSize / cellSize; x++)
+                  window.draw(gameField.getCell(x,y));
+              window.display();
+
+                  calculatedMove = gameField.findBestMove(gameField.getField());
+                  std::cout << "Should move to (y,x) -> " << calculatedMove.first << " , " << calculatedMove.second << "\n";
+                  if(gameField.changeCellState_(calculatedMove.second, calculatedMove.first, true)){
+                  std::cout << "Im not entering here\n";
+                  result = gameField.checkForTerminalState(gameField.getField());
+                  switch(result){
+                    case -10:
+                    std::cout << "Circle Wins\n";
+                    return false;
+                    break;
+                    case 10:
+                    std::cout << "Cross Wins\n";
+                    return false;
+                    crossTurn = false;
+                    break;
+                    case 0:
+                    std::cout << "Tie\n";
+                    return false;
+                    break;
+                    case 3:
+                    std::cout << "The game keeps goin on\n";
+                    crossTurn = false;
+                    break;
+                  }
+
+                  window.clear();
+                  for (int y = 0; y < fieldSize/ cellSize; y++)
+                    for (int x = 0; x < fieldSize / cellSize; x++)
+                      window.draw(gameField.getCell(x,y));
+                  window.display();
+
+                }
               }
-              std::pair <int,int> calculatedMove = gameField.findBestMove(gameField.getField());
-              std::cout << "Should move to (y,x) -> " << calculatedMove.first << " , " << calculatedMove.second << "\n";
             }
+
+
 
       }
     }
@@ -84,6 +99,10 @@ int main(){
       for (int x = 0; x < fieldSize / cellSize; x++)
         window.draw(gameField.getCell(x,y));
     window.display();
+
+
+
+
 
 
   }

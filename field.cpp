@@ -162,9 +162,9 @@ int Field::checkForTerminalState(std::vector< std::vector <Cell> > field_){
      for (int x = 0; x < 3; x++){
        std::vector < std::vector <Cell> > currentBoard_ = currentBoard;
        if (!currentBoard[y][x].isOccupied()){
+          currentBoard_[y][x].occupyCell();
           currentBoard_[y][x].crossOccupy();
-          int result = minimax(currentBoard_, 0, true);
-          std::cout << "RESULTS ARE -> " << result << "\n";
+          int result = minimax(currentBoard_, 0, false);
           if (result > bestResult){
             bestResult = result;
             bestMove = std::make_pair(y,x);
@@ -180,16 +180,15 @@ int Field::checkForTerminalState(std::vector< std::vector <Cell> > field_){
 
 int Field::minimax (std::vector < std::vector <Cell> > currentBoard, int depth, bool isMaximizingPlayer){
 
-  //  std::cout << "Depth -> " << depth << "\n";
 
     if (depth < 3){
 
     int boardState = checkForTerminalState(currentBoard);
     if (boardState != 3){
-     std::cout << "TERMINAL STATE RESULT: " << boardState << " in depth -> " << depth;
+     /*std::cout << "TERMINAL STATE RESULT: " << boardState << " in depth -> " << depth;
       if (isMaximizingPlayer)
            std::cout << " Maximizing\n";
-      else std::cout << " Minimizing\n";
+      else std::cout << " Minimizing\n";*/
       return boardState;
     }
 
@@ -201,6 +200,8 @@ int Field::minimax (std::vector < std::vector <Cell> > currentBoard, int depth, 
            if (!currentBoard[y][x].isOccupied()){
               currentBoard_[y][x].crossOccupy();
               int value = minimax(currentBoard_, depth + 1, false);
+              if (value != 0)
+                  std::cout << "IN MAX THE VALUE IS -> " << value << "\n";
               bestValue = std::max(value, bestValue);
               bestValue - depth;
            }
@@ -217,8 +218,8 @@ int Field::minimax (std::vector < std::vector <Cell> > currentBoard, int depth, 
           if (!currentBoard[y][x].isOccupied()){
              currentBoard_[y][x].occupyCell();
              int value = minimax(currentBoard_, depth + 1, true);
-             //if (value != 0)
-                 //std::cout << "IN MIN THE VALUE IS -> " << value << "\n";
+             if (value != 0)
+                 std::cout << "IN MIN THE VALUE IS -> " << value << "\n";
              bestValue = std::min(value, bestValue);
              bestValue + depth;
           }
@@ -243,6 +244,27 @@ bool Field::changeCellState(int posX, int posY, bool crossTurn){
       std::cout << "PosX -> " << posX << " PosY -> " << posY << "\n";
 
 
+
+      if(field[posY][posX].isOccupied())
+         return false;
+      else{
+        if (crossTurn){
+          texture crossTexture = crossTexture_;
+          field[posY][posX].setTexture(crossTexture);
+          field[posY][posX].occupyCell();
+          field[posY][posX].crossOccupy();
+        }else{
+          texture circleTexture = circleTexture_;
+          field[posY][posX].setTexture(circleTexture);
+          field[posY][posX].occupyCell();
+        }
+      }
+
+
+      return true;
+}
+
+bool Field::changeCellState_(int posX, int posY, bool crossTurn){
 
       if(field[posY][posX].isOccupied())
          return false;

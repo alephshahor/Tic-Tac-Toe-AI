@@ -21,6 +21,7 @@ class Field{
         Field(int xAxisSize, int yAxisSize, float cellSize);
 
         bool changeCellState(int posX, int posY, bool crossTurn);
+        bool changeCellState_(int posX, int posY, bool crossTurn);
         Cell getCell(int posX, int posY);
 
         int checkForTerminalState(std::vector< std::vector <Cell> > field_);
