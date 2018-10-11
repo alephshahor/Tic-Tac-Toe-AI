@@ -23,5 +23,12 @@ class Field{
         bool changeCellState(int posX, int posY, bool crossTurn);
         Cell getCell(int posX, int posY);
 
-        int checkForTerminalState();
+        int checkForTerminalState(std::vector< std::vector <Cell> > field_);
+        std::vector <std::vector <Cell> > getField();
+
+        std::pair<int,int> findBestMove(std::vector < std::vector <Cell> > currentBoard);
+        int minimax (std::vector < std::vector <Cell> > currentBoard, int depth, bool isMaximizingPlayer);
+
+
+
 };

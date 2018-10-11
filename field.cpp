@@ -47,7 +47,11 @@ Cell Field::getCell(int posX, int posY){
        return field[posY][posX];
 }
 
-int Field::checkForTerminalState(){
+std::vector <std::vector <Cell> > Field::getField(){
+      return field;
+}
+
+int Field::checkForTerminalState(std::vector< std::vector <Cell> > field_){
 
     int crossCounter = 0;
     int circleCounter = 0;
@@ -55,34 +59,34 @@ int Field::checkForTerminalState(){
     // Check for first Diagonal
 
     for (int y = 0; y < 3; y++){
-      if (field[y][y].isOccupied()){
-        if (field[y][y].isCrossOccupied())
+      if (field_[y][y].isOccupied()){
+        if (field_[y][y].isCrossOccupied())
             crossCounter++;
         else circleCounter++;
       }
     }
 
     if (circleCounter == 3 )
-      return 0;
+      return -10;
     else if (crossCounter == 3)
-      return 1;
+      return 10;
 
     crossCounter = circleCounter = 0;
 
     // Check for second Diagonal
 
     for (int y = 2; y >= 0; y--){
-      if (field[y][2 - y].isOccupied()){
-        if (field[y][2 - y].isCrossOccupied())
+      if (field_[y][2 - y].isOccupied()){
+        if (field_[y][2 - y].isCrossOccupied())
             crossCounter++;
         else circleCounter++;
       }
     }
 
     if (circleCounter == 3 )
-      return 0;
+      return -10;
     else if (crossCounter == 3)
-      return 1;
+      return 10;
     crossCounter = circleCounter = 0;
 
 
@@ -90,17 +94,17 @@ int Field::checkForTerminalState(){
 
     for (int y = 0; y < 3; y++){
       for (int x = 0; x < 3; x++){
-        if (field[y][x].isOccupied()){
-          if (field[y][x].isCrossOccupied())
+        if (field_[y][x].isOccupied()){
+          if (field_[y][x].isCrossOccupied())
               crossCounter++;
           else circleCounter++;
       }
     }
 
     if (circleCounter == 3 )
-      return 0;
+      return -10;
     else if (crossCounter == 3)
-      return 1;
+      return 10;
         crossCounter = circleCounter = 0;
   }
 
@@ -111,17 +115,17 @@ int Field::checkForTerminalState(){
 
     for (int y = 0; y < 3; y++){
       for (int x = 0; x < 3; x++){
-        if (field[x][y].isOccupied()){
-          if (field[x][y].isCrossOccupied())
+        if (field_[x][y].isOccupied()){
+          if (field_[x][y].isCrossOccupied())
               crossCounter++;
           else circleCounter++;
       }
     }
 
     if (circleCounter == 3 )
-      return 0;
+      return -10;
     else if (crossCounter == 3)
-      return 1;
+      return 10;
         crossCounter = circleCounter = 0;
   }
 
@@ -132,7 +136,7 @@ int Field::checkForTerminalState(){
 
   for (int y = 0; y < 3; y++){
     for (int x = 0; x < 3; x++){
-      if (field[x][y].isOccupied()){
+      if (field_[x][y].isOccupied()){
           fullboardCounter++;
       }
     }
@@ -140,12 +144,93 @@ int Field::checkForTerminalState(){
 
 
   if (fullboardCounter == 9)
-      return 2;
+      return 0;
 
   return 3;
 
 }
 
+
+
+ std::pair<int,int> Field::findBestMove(std::vector < std::vector <Cell> > currentBoard){
+
+
+   std::pair <int,int> bestMove;
+   int bestResult = -99999;
+
+   for (int y = 0; y < 3; y++){
+     for (int x = 0; x < 3; x++){
+       std::vector < std::vector <Cell> > currentBoard_ = currentBoard;
+       if (!currentBoard[y][x].isOccupied()){
+          currentBoard_[y][x].crossOccupy();
+          int result = minimax(currentBoard_, 0, true);
+          std::cout << "RESULTS ARE -> " << result << "\n";
+          if (result > bestResult){
+            bestResult = result;
+            bestMove = std::make_pair(y,x);
+          }
+        }
+       }
+     }
+
+  return bestMove;
+
+
+ }
+
+int Field::minimax (std::vector < std::vector <Cell> > currentBoard, int depth, bool isMaximizingPlayer){
+
+  //  std::cout << "Depth -> " << depth << "\n";
+
+    if (depth < 3){
+
+    int boardState = checkForTerminalState(currentBoard);
+    if (boardState != 3){
+     std::cout << "TERMINAL STATE RESULT: " << boardState << " in depth -> " << depth;
+      if (isMaximizingPlayer)
+           std::cout << " Maximizing\n";
+      else std::cout << " Minimizing\n";
+      return boardState;
+    }
+
+    if (isMaximizingPlayer){
+       int bestValue = -99999;
+       for (int y = 0; y < 3; y++){
+         for (int x = 0; x < 3; x++){
+           std::vector < std::vector <Cell> > currentBoard_ = currentBoard;
+           if (!currentBoard[y][x].isOccupied()){
+              currentBoard_[y][x].crossOccupy();
+              int value = minimax(currentBoard_, depth + 1, false);
+              bestValue = std::max(value, bestValue);
+              bestValue - depth;
+           }
+         }
+       }
+
+       return bestValue;
+
+    }else{
+      int bestValue = 99999;
+      for (int y = 0; y < 3; y++){
+        for (int x = 0; x < 3; x++){
+          std::vector < std::vector <Cell> > currentBoard_ = currentBoard;
+          if (!currentBoard[y][x].isOccupied()){
+             currentBoard_[y][x].occupyCell();
+             int value = minimax(currentBoard_, depth + 1, true);
+             //if (value != 0)
+                 //std::cout << "IN MIN THE VALUE IS -> " << value << "\n";
+             bestValue = std::min(value, bestValue);
+             bestValue + depth;
+          }
+        }
+      }
+      return bestValue;
+
+    }
+  } else return 0;
+
+
+ }
 
 // If it changes returns true, in the negative case it was occupied
 // so the player needs to select other cell

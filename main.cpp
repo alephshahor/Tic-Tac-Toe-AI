@@ -9,7 +9,7 @@ int main(){
   int cellSize = 160;
   int fieldSize = 480;
 
-  bool crossTurn = false;
+  bool crossTurn = true;
 
 
   Field gameField(fieldSize,fieldSize,cellSize);
@@ -24,19 +24,19 @@ int main(){
              window.close();
              break;
         case sf::Event::MouseButtonPressed:
-              if ((evnt.mouseButton.button == sf::Mouse::Left) && (crossTurn)){
+              if ((evnt.mouseButton.button == sf::Mouse::Left) && (crossTurn)){ // Cross turn
                 if(gameField.changeCellState(evnt.mouseButton.x, evnt.mouseButton.y,crossTurn)){
-                  int result = gameField.checkForTerminalState();
+                  int result = gameField.checkForTerminalState(gameField.getField());
                   switch(result){
-                    case 0:
+                    case -10:
                     std::cout << "Circle Wins\n";
                     return false;
                     break;
-                    case 1:
+                    case 10:
                     std::cout << "Cross Wins\n";
                     return false;
                     break;
-                    case 2:
+                    case 0:
                     std::cout << "Tie\n";
                     return false;
                     break;
@@ -52,17 +52,17 @@ int main(){
 
             }else{
               if(gameField.changeCellState(evnt.mouseButton.x, evnt.mouseButton.y,crossTurn)){
-                int result = gameField.checkForTerminalState();
+                int result = gameField.checkForTerminalState(gameField.getField());
                 switch(result){
-                  case 0:
+                  case -10:
                   std::cout << "Circle Wins\n";
                   return false;
                   break;
-                  case 1:
+                  case 10:
                   std::cout << "Cross Wins\n";
                   return false;
                   break;
-                  case 2:
+                  case 0:
                   std::cout << "Tie\n";
                   return false;
                   break;
@@ -72,6 +72,8 @@ int main(){
                   break;
                 }
               }
+              std::pair <int,int> calculatedMove = gameField.findBestMove(gameField.getField());
+              std::cout << "Should move to (y,x) -> " << calculatedMove.first << " , " << calculatedMove.second << "\n";
             }
 
       }
