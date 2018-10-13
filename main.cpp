@@ -1,11 +1,40 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 #include "cell.hpp"
 #include "field.hpp"
+#include "cScreen.hpp"
+#include "firstScreen.hpp"
+#include "gameScreen.hpp"
+#include "circleWinScreen.hpp"
+#include "crossWinScreen.hpp"
+#include "tieScreen.hpp"
 
 int main(){
 
+  sf::RenderWindow window(sf::VideoMode(480,480), "Tic Tac Toe AI", sf::Style::Close);
+  std::vector<cScreen*> Screens;
 
+  firstScreen screen00;
+  gameScreen screen01;
+  circleWinScreen screen02;
+  crossWinScreen screen03;
+  tieScreen screen04;
+
+  Screens.push_back(&screen00);
+  Screens.push_back(&screen01);
+  Screens.push_back(&screen02);
+  Screens.push_back(&screen03);
+  Screens.push_back(&screen04);
+
+  int screen = 0;
+
+  while (screen != -1){
+    std::cout << "RECEIVING SCREEN NUMBER : " << screen << "\n";
+    screen = Screens[screen] -> Run(window);
+  }
+
+  /*
   int cellSize = 160;
   int fieldSize = 480;
 
@@ -25,7 +54,7 @@ int main(){
     window.clear();
     window.draw(mainScreen);
     window.display();
-  }
+  }*/
 
 
 /*
