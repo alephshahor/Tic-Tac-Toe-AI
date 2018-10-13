@@ -11,7 +11,7 @@ int crossWinScreen::Run(sf::RenderWindow& window){
 
 
   sf::Time delayTime = sf::seconds(3);
-  bool running;
+  bool running = true;
 
     while(running){
 
