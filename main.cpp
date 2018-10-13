@@ -14,9 +14,21 @@ int main(){
 
 
   Field gameField(fieldSize,fieldSize,cellSize);
-      std::cout << "IMhere\n";
   sf::RenderWindow window(sf::VideoMode(fieldSize,fieldSize), "Tic Tac Toe", sf::Style::Close);
 
+  sf::Texture mainScreenTexture;
+  mainScreenTexture.loadFromFile("./art/humanwins.png");
+  sf::RectangleShape mainScreen(sf::Vector2f(480.0f, 480.0f));
+  mainScreen.setTexture(&mainScreenTexture);
+
+  while (true){
+    window.clear();
+    window.draw(mainScreen);
+    window.display();
+  }
+
+
+/*
   while (true){
     sf::Event evnt;
     while (window.pollEvent(evnt)){
@@ -106,5 +118,5 @@ int main(){
 
 
   }
-
+*/
 }

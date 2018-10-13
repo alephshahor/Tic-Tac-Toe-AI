@@ -5,9 +5,9 @@ Cell::Cell(float cellDimension, std::pair<int,int> position):
   occupied(false),
   crossOccupied(false)
   {
-    crossTexture.loadFromFile("cross.png");
-    circleTexture.loadFromFile("circle.png");
-    freeTexture.loadFromFile("white.png");
+    crossTexture.loadFromFile("./art/cross_.png");
+    circleTexture.loadFromFile("./art/circle_.png");
+    freeTexture.loadFromFile("./art/white.png");
 
     cellDrawable.setSize(sf::Vector2f(cellDimension,cellDimension));
     cellDrawable.setPosition(position.first, position.second);
@@ -18,9 +18,9 @@ Cell::Cell(float cellDimension, std::pair<int,int> position):
     occupied(false),
     crossOccupied(false)
     {
-      crossTexture.loadFromFile("cross.png");
-      circleTexture.loadFromFile("circle.png");
-      freeTexture.loadFromFile("white.png");
+      crossTexture.loadFromFile("./art/cross_.png");
+      circleTexture.loadFromFile("./art/circle_.png");
+      freeTexture.loadFromFile("./art/white.png");
 
       cellDrawable.setSize(sf::Vector2f(cellDimension,cellDimension));
       cellDrawable.setPosition(posX, posY);
