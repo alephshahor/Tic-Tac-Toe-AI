@@ -30,7 +30,6 @@ int main(){
   int screen = 0;
 
   while (screen != -1){
-    std::cout << "RECEIVING SCREEN NUMBER : " << screen << "\n";
     screen = Screens[screen] -> Run(window);
   }
 

@@ -28,8 +28,8 @@ int firstScreen::Run(sf::RenderWindow& window){
                   int xPos = evnt.mouseButton.x;
                   int yPos = evnt.mouseButton.y;
 
-                  for (int y = 0; y < 480; y++){
-                    for (int x = 0; x < 480; x++){
+                 for (int y = 295; y < 330; y++){
+                    for (int x = 285; x < 450; x++){
 
                       if ((xPos == x) && (yPos == y)){
                            aiTurn = false; // Human begins
@@ -39,15 +39,16 @@ int firstScreen::Run(sf::RenderWindow& window){
                  }
               }
 
-                /*  if ((xPos == 50) && (yPos == 50)){
-                       aiTurn = false; // Human begins
-                       return 1;
-                  }else if ((xPos == 70 ) && (yPos == 70)){
-                       aiTurn = true; // AI begins
-                       return 1;
-                }
-             }*/
+              for (int y = 365; y < 400; y++){
+                 for (int x = 285; x < 450; x++){
 
+                   if ((xPos == x) && (yPos == y)){
+                        aiTurn = true; // Ai begins
+                        return 1;
+                 }
+
+              }
+           }
 
       }
 

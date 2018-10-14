@@ -61,7 +61,6 @@ int gameScreen::Run(sf::RenderWindow& window){
               if(gameField.changeCellState(evnt.mouseButton.x, evnt.mouseButton.y, aiTurn)){
                 int result = gameField.checkForTerminalState(gameField.getField());
                 result = processResult(result);
-                std::cout << "Result equals -> " << result;
                 if (result != 15)
                     return result;
                 else
@@ -75,21 +74,14 @@ int gameScreen::Run(sf::RenderWindow& window){
               window.display();
 
                   calculatedMove = gameField.findBestMove(gameField.getField());
-                  std::cout << "Should move to (y,x) -> " << calculatedMove.first << " , " << calculatedMove.second << "\n";
                   if(gameField.changeCellState_(calculatedMove.second, calculatedMove.first, aiTurn)){
                     int result = gameField.checkForTerminalState(gameField.getField());
                     result = processResult(result);
-                    std::cout << "Result equals -> " << result;
+
                     if (result != 15)
                       return result;
                     else
                       aiTurn = false;
-
-                  /*window.clear();
-                  for (int y = 0; y < fieldSize/ cellSize; y++)
-                    for (int x = 0; x < fieldSize / cellSize; x++)
-                      window.draw(gameField.getCell(x,y));
-                  window.display();*/
 
                 }
               }

@@ -3,8 +3,6 @@
 
 int circleWinScreen::Run(sf::RenderWindow& window){
 
-  std::cout << "Arriving at Circle Screen\n";
-
   sf::RectangleShape gameScreen(sf::Vector2f(480.0f, 480.0f));
   sf::Texture gameScreenTexture;
 
